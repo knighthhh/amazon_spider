@@ -30,7 +30,7 @@ CHANGE_IP = 150
 IP = ''
 
 #是否开启代理
-PROXY_SWITCH = False
+PROXY_SWITCH = True
 
 #是否使用cookies
 COOKIES_SWITCH = False

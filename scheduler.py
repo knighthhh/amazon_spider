@@ -43,8 +43,18 @@ class Scheduler(object):
                 color = detail_html.xpath('string(//div[@id="variation_color_name"]//span)').strip()
                 size = detail_html.xpath('string(//div[@id="variation_size_name"]//span)').strip()
                 commentCount = detail_html.xpath('string(//span[@id="acrCustomerReviewText"])').split(' ')[0].replace(',', '')
-                commentRating = detail_html.xpath('string(//span[@class="arp-rating-out-of-text a-color-base"])').split(' ')[0]
-                imageUrls = detail_html.xpath('//div[@class="imgTagWrapper"]/img/@src')
+                commentRating = detail_html.xpath('string(//a[@class="a-popover-trigger a-declarative"]/i/span)').split(' ')[0]
+
+                #匹配图片
+                imageUrls = []
+                img_res = re.search("var data = {};.*?var obj = jQuery.parseJSON\('(.*?)'\);", detail_response.text, re.S)
+                img_obj = json.loads(img_res.group(1))
+                try:
+                    key_one = list(img_obj['colorImages'].keys())[0]
+                    for data in img_obj['colorImages'][key_one]:
+                        imageUrls.append(data['large'])
+                except:
+                    pass
 
                 obj = {
                     'title': title,

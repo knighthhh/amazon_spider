@@ -50,8 +50,8 @@ class Download(object):
         # else:
         #     pass
         proxies = {
-                'http': 'http://xx',
-                'https': 'http://xx'
+                'http': 'http://127.0.0.1:1087',
+                'https': 'http://127.0.0.1:1087'
         }
         try:
             if config.COOKIES_SWITCH:
