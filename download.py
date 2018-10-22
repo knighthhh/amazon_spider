@@ -11,6 +11,7 @@ class Download(object):
     def __init__(self,ip_url = IP_URL,change_ip = CHANGE_IP):
         self.ip_url = ip_url
         self.change_ip = change_ip
+        self.retry_num = 0
 
     def get_ip(self,url = IP_URL):
         print('正在获取IP。。')
@@ -49,6 +50,10 @@ class Download(object):
         #     config.REQUEST_NUM +=1
         # else:
         #     pass
+        if self.retry_num > config.ERROR_MAX:
+            print('大于最大重试次数，已结束')
+            self.retry_num = 0
+            return None
         proxies = {
                 'http': 'http://127.0.0.1:1087',
                 'https': 'http://127.0.0.1:1087'
@@ -60,23 +65,26 @@ class Download(object):
                 if config.PROXY_SWITCH:
                     response = requests.get(url, headers=config.HEADERS, proxies=proxies)
                 else:
-                    response = requests.get(url, headers=config.HEADERS)
+                    response = requests.get(url, headers=config.HEADERS, verify=False)
                     response.encoding = "utf-8"
             if response.status_code == 200:
                 return response
             return None
         except requests.exceptions.ConnectTimeout:
             print('请求RUL连接超时，正在重试', url)
+            self.retry_num +=1
             return self.get_html(url)
         except requests.exceptions.Timeout:
             print('请求RUL超时，正在重试', url)
+            self.retry_num += 1
             return self.get_html(url)
         except RequestException:
             print('未知错误，正在重试',url)
+            self.retry_num += 1
             return self.get_html(url)
 
 
 if __name__ == '__main__':
     download = Download()
-    res = download.get_html('https://m.weibo.cn')
+    res = download.get_html('https://xx')
     print(res)

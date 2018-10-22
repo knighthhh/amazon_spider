@@ -68,7 +68,9 @@ class MysqlClient(object):
         try:
             self.cursor.execute(sql)
             self.client.commit()
+            print('存储成功')
         except:
+            print('存储失败')
             self.client.rollback()
 
     def find_all(self, sql):
