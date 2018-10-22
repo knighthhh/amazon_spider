@@ -52,10 +52,11 @@ class Scheduler(object):
                 crawled_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
                 #图片信息入库
-                imageUrls = []
-                img_res = re.search("var data = {};.*?var obj = jQuery.parseJSON\('(.*?)'\);", detail_response.text, re.S)
-                img_obj = json.loads(img_res.group(1))
                 try:
+                    imageUrls = []
+                    img_res = re.search("var data = {};.*?var obj = jQuery.parseJSON\('(.*?)'\);", detail_response.text,
+                                        re.S)
+                    img_obj = json.loads(img_res.group(1))
                     key_one = list(img_obj['colorImages'].keys())[0]
                     for data in img_obj['colorImages'][key_one]:
                         imageUrls.append(data['large'])
