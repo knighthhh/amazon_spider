@@ -121,6 +121,8 @@ class Scheduler(object):
                 self.db.save(sql)
 
     def get_follow_sale(self, url, follow_sale_num):
+        if follow_sale_num == None:
+            return []
         if int(follow_sale_num) > 10:
             pageNum = math.ceil(int(follow_sale_num)/10)
         else:
