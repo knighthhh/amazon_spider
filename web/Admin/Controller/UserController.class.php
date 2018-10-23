@@ -5,7 +5,7 @@ use Think\Controller;
 class UserController extends BaseController
 {
 	public function get_user(){
-		$model = D('User');
+		$model = D('Keyword_res');
 		$info = $model->search();
 		//dump($info);die;
 		$this->assign($info);

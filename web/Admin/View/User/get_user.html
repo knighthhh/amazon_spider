@@ -32,10 +32,13 @@
     </div>
     <table class="table table-hover text-center">
       <tr>
-        <th width="25%" style="">ID</th>
-        <th width="25%">name</th>
-        <th width="25%" style="">password</th>
-        <th width="25%"></th>
+        <th width="12%" style="">title</th>
+        <th width="12%">price</th>
+        <th width="12%" style="">color</th>
+        <th width="12%">size</th>
+	<th width="12%">commentCount</th>
+	<th width="12%">commentRating</th>
+	<th width="12%">follow_sale_num</th>
       </tr>
       <?php if(empty($data)): ?>
       		<tr>
@@ -49,9 +52,13 @@
       <?php endif; ?>
     <?php foreach ($data as $k => $v): ?>
         <tr>
-          <td><?php echo $v['user_id']; ?></td>
-          <td><?php echo $v['user_name']; ?></td>
-          <td><?php echo $v['user_password']; ?></td>
+          <td><?php echo $v['title']; ?></td>
+          <td><?php echo $v['price']; ?></td>
+<td><?php echo $v['color']; ?></td>
+<td><?php echo $v['size']; ?></td>
+<td><?php echo $v['commentcount']; ?></td>
+          <td><?php echo $v['commentrating']; ?></td>
+ <td><?php echo $v['follow_sale_num']; ?></td>
           
         </tr>
         
