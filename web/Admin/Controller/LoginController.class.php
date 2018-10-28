@@ -10,12 +10,10 @@ class LoginController extends Controller
 			$model = D('manager');
 			$name = I('post.name');
 			$password = I('post.password');
-                        print_r($password);
-print_r($name);
 			$admin = $model->where(array(
 				'mg_admin' => array('eq',$name)
 				))->find();
-print_r($model ->find());
+
 			if($admin){
 				if($admin['mg_password'] == $password){
 					cookie('id',$admin['mg_id'],3600*24);
