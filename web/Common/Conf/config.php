@@ -5,10 +5,10 @@ return array(
 
     /* 数据库设置 */
     'DB_TYPE'             => 'mysql', // 数据库类型
-    'DB_HOST'             => '127.0.0.1', // 服务器地址
-    'DB_NAME'             => 'mountings', // 数据库名
+    'DB_HOST'             => '111.230.204.215', // 服务器地址
+    'DB_NAME'             => 'amazon_spider', // 数据库名
     'DB_USER'             => 'root',
-    'DB_PWD'              => 'root', // 密码
+    'DB_PWD'              => 'Qazwsx!741', // 密码
     'DB_PORT'             => '3306', // 端口
     'DB_PREFIX'           => '', // 数据库表前缀
     'DB_FIELDTYPE_CHECK'  => false, // 是否进行字段类型检查
