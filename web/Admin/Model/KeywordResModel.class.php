@@ -26,6 +26,25 @@ class KeywordResModel extends Model{
             ->where($where)
             ->limit($pageObj->firstRow . "," . $pageObj->listRows)
             ->select();
+
+        //处理跟卖
+        foreach($data as $k=>$v){
+             $product_id = $v['product_id'];
+             $follow_where =  array();
+             $images_where =  array();
+             $follow_where['product_id'] = array('eq',$product_id);
+             $images_where['product_id'] = array('eq',$product_id);
+             $follow_sale = M(Follow_sale)
+                    ->where($follow_where)
+                    ->select();
+             $images = M(Image)
+                    ->where($images_where)
+                    ->select();
+             $data[$k]['follow_sale'] = $follow_sale;
+             $data[$k]['images'] = $images;
+        }
+
+
         return array(
             'data' => $data, //用户信息
             'page' => $pageButton, //分页结果

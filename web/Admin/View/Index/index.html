@@ -30,15 +30,9 @@
   <h2><span class="fa fa-user-circle"></span>数据管理</h2>
   <ul> 
    	<?php 
-        echo authCheck(MODULE_NAME.'/User/get_user',cookie('id'),'<li><a href="__MODULE__/User/get_user" target="right"><span class="icon-caret-right"></span>详情</a></li>');
+        echo authCheck(MODULE_NAME.'/Keyword/get_res',cookie('id'),'<li><a href="__MODULE__/Keyword/get_res" target="right"><span class="icon-caret-right"></span>关键词详情</a></li>');
      ?>
-  </ul>   
-  <ul> 
-   	<?php 
-        echo authCheck(MODULE_NAME.'/Car/get_item',cookie('id'),'<li><a href="__MODULE__/Car/get_item" target="right"><span class="icon-caret-right"></span>配件信息</a></li>');
-     ?>
-  </ul>   
- 
+  </ul>
 </div>
 <script type="text/javascript">
 $(function(){

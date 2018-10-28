@@ -2,9 +2,9 @@
 namespace Admin\Controller;
 use Think\Controller;
 
-class UserController extends BaseController
+class KeywordController extends BaseController
 {
-	public function get_user(){
+	public function get_res(){
 		$model = D('Keyword_res');
 		$info = $model->search();
 		//dump($info);die;
