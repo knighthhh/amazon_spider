@@ -3,7 +3,7 @@ namespace Admin\Model;
 use Think\Model;
 
 class KeywordResModel extends Model{
-	public function search($perPage=5)
+	public function search($perPage=10)
 	{
 		/* 分页 */
         $count = $this->count();
