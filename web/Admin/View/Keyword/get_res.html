@@ -33,11 +33,12 @@
 	</div> -->
     <div class="padding border-bottom">
       <ul class="search" style="padding-left:10px;">
-        <!--<li>-->
-        <!--<a class="layui-btn layui-btn-primary" href="__MODULE__/User/add"><i class="layui-icon">&#xe654;</i>  添加用户</a> </li>-->
-        <!--<li style="margin-left: 500px">-->
-          <!--<input type="text" placeholder="请输入用户手机号" name="searchValue" class="input" style="width:250px; line-height:17px;display:inline-block" />-->
-          <!--<a class="layui-btn layui-btn" style="cursor:pointer" onclick="$('#listform').submit()"><i class="layui-icon">&#xe615;</i>  搜索</a>	-->
+        <li>
+        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Export/add"><i class="layui-icon">&#xe654;</i>  导出</a>
+		</li>
+		<li>
+        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Select/add"><i class="layui-icon">&#xe654;</i>  筛选</a>
+		</li>
       </ul>
     </div>
     <table class="table table-hover text-center">
@@ -48,9 +49,12 @@
          <th width="10%">价格(美元)</th>
          <th width="5%" style="">颜色</th>
          <th width="5%">型号</th>
-		 <th width="10%">评论数</th>
-		 <th width="10%">评论评分</th>
-		 <th width="10%">跟卖数量</th>
+		 <th width="5%">评论数</th>
+		 <th width="5%">评论评分</th>
+		 <th width="5%">跟卖数量</th>
+		 <th width="5%">编号</th>
+		 <th width="10%">排名1</th>
+		 <th width="10%">排名2</th>
 		 <th width="10%">爬取时间</th>
       </tr>
       <?php if(empty($data)): ?>
@@ -74,6 +78,9 @@
 			<td><?php echo $v['commentcount']; ?></td>
           	<td><?php echo $v['commentrating']; ?></td>
  			<td><?php echo $v['follow_sale_num']; ?></td>
+ 			<td><?php echo $v['asin']; ?></td>
+ 			<td><?php echo $v['rank1']; ?></td>
+ 			<td><?php echo $v['rank2']; ?></td>
  			<td><?php echo $v['crawled_time']; ?></td>
 			<td>
          		 <a class="layui-btn layui-btn-primary layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id']; ?>, '450px','460px')"><i class="layui-icon">&#xe615;</i>　查看跟卖 </a>
@@ -121,9 +128,9 @@
         
     <?php endforeach; ?>
       <tr>
-        <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>
-          全选 </td>
-        <td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)" class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a>
+        <!--<td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>-->
+          <!--全选 </td>-->
+        <!--<td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)" class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a>-->
       </tr>
       <tr>
       	<td colspan="8">

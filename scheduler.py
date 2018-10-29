@@ -28,6 +28,7 @@ class Scheduler(object):
 
     def get_kw(self, page):
         url = 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=iphone&page={page}'.format(page=page)
+        print(url)
         response = self.download.get_html(url)
         if response is not None:
             html = HTML(response.text)
@@ -38,7 +39,6 @@ class Scheduler(object):
                     url = url
                 else:
                     url = 'https://www.amazon.com' + url
-                print(url)
                 detail_response = self.download.get_html(url)
                 detail_html = HTML(detail_response.text)
                 product_id = hashlib.md5(url.encode()).hexdigest()
@@ -50,6 +50,33 @@ class Scheduler(object):
                 commentRating = detail_html.xpath('string(//a[@class="a-popover-trigger a-declarative"]/i/span)').split(' ')[0]
                 crawled_timestamp = int(time.time())
                 crawled_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+                #编号
+                try:
+                    asin = re.search('.*?productDetails_detailBullets_sections1.*?ASIN.*?<td class="a-size-base">(.*?)</td>',detail_response.text,re.S).group(1).strip()
+                except:
+                    asin = None
+                #类目排名
+                try:
+                    category_res1 = re.search('.*?productDetails_detailBullets_sections1.*?Best Sellers Rank.*?<span>.*?(<span>.*?</span>)',detail_response.text,re.S)
+                    category_res2 = re.search('.*?productDetails_detailBullets_sections1.*?Best Sellers Rank.*?<span>.*?<span>.*?</span>.*?(<span>.*?</span>).*?</span>',detail_response.text,re.S)
+                    if category_res1:
+                        # rank_search = re.search('.*?#(.*?)in.*?', category_res1.group(1))
+                        # if rank_search:
+                        #     rank1 = rank_search.group(1)
+                        # else:
+                        #     rank1 = None
+                        # print(rank1)
+                        html = HTML(category_res1.group(1))
+                        list_res = html.xpath('//text()')
+                        rank1 = ''.join(list_res)
+                    if category_res2:
+                        html = HTML(category_res2.group(1))
+                        list_res = html.xpath('//text()')
+                        rank2 = ''.join(list_res)
+                except:
+                    rank1 = None
+                    rank2 = None
 
                 #图片信息入库
                 try:
@@ -114,8 +141,8 @@ class Scheduler(object):
                     'follow_sale_num': follow_sale_num,
                 }
                 print(obj)
-                sql = "insert into keyword_res(product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,crawled_timestamp,crawled_time) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"\
-                      % (product_id, title, url, price, color, size, commentCount, commentRating,have_follow_sale,follow_sale_num, crawled_timestamp, crawled_time)\
+                sql = "insert into keyword_res(product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"\
+                      % (product_id, title, url, price, color, size, commentCount, commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2, crawled_timestamp, crawled_time)\
                       + "ON DUPLICATE KEY UPDATE title='%s', url='%s', price='%s',commentCount='%s',crawled_timestamp='%s',crawled_time='%s'"%(title,url,price,commentCount,crawled_timestamp,crawled_time)
                 print(sql)
                 self.db.save(sql)
@@ -134,6 +161,8 @@ class Scheduler(object):
             url = url.format(startIndex=startIndex)
             print(url)
             follow_response = self.download.get_html(url)
+            if follow_response is None:
+                return []
             follow_html = HTML(follow_response.text)
 
             html_list = follow_html.xpath('//div[@class="a-row a-spacing-mini olpOffer"]')
@@ -156,3 +185,4 @@ class Scheduler(object):
                 print(obj)
                 item_list.append(obj)
         return item_list
+
