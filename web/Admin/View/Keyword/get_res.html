@@ -85,6 +85,7 @@
 			<td>
          		 <a class="layui-btn layui-btn-primary layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id']; ?>, '450px','460px')"><i class="layui-icon">&#xe615;</i>　查看跟卖 </a>
           		 <a class="layui-btn layui-btn layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'1'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　查看图片 </a>
+          		 <a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'2'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　词频统计 </a>
 
 
           <!--<a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="del(<?php echo $v['user_id']; ?>)"> <i class="layui-icon">&#xe640;</i>　删　除</a></br>-->
@@ -94,7 +95,7 @@
 			  <!--<a class="layui-btn layui-btn-normal layui-btn-mini" href="__MODULE__/relative/listRela/user_id/<?php echo $v['user_id']; ?>"><i class="layui-icon">&#xe612;</i>亲友管理</a>-->
 			</td>
           <td colspan="0">
-          	<!-- 详情页面 -->
+          	<!-- 跟卖信息 -->
         	<div id="dialog<?php echo $v['id']; ?>" style="display:none;" title="详情信息">
 				<table class="dialogtable" cellspacing="0" cellpadding="0">
 					<tr>
@@ -113,6 +114,7 @@
 					<?php endforeach; ?>
 				</table>
        		</div>
+			  <!--图片信息-->
 			<div id="dialog<?php echo $v['id'].'1'; ?>" style="display:none;" title="详情信息">
 				<table class="dialogtable" cellspacing="0" cellpadding="0">
 					<?php foreach ($v['images'] as $kk => $vv): ?>
@@ -121,6 +123,17 @@
 						<td> <img src="<?php echo $vv['img_url']; ?>"></td>
 					</tr>
 					<?php endforeach; ?>
+				</table>
+       		</div>
+			    <!--词频统计-->
+			<div id="dialog<?php echo $v['id'].'2'; ?>" style="display:none;" title="详情信息">
+				<table class="dialogtable" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>url</td>
+						<td><?php echo $v['url']; ?></td>
+					</tr>
+					<tr>
+					</tr>
 				</table>
        		</div>
           </td>
