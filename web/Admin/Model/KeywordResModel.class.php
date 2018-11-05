@@ -42,8 +42,18 @@ class KeywordResModel extends Model{
                     ->select();
              $data[$k]['follow_sale'] = $follow_sale;
              $data[$k]['images'] = $images;
+
         }
 
+         //处理url词频统计
+        foreach($data as $k=>$v){
+            $url = $v['url'];
+            preg_match('/https:\/\/www.amazon.com\/([^.]+)\/dp\//',$url, $matches);
+            $match_res = $matches[1];
+            $split_res = explode("-",$match_res);
+            $res = array_count_values($split_res);
+            $data[$k]['count_url'] = $res;
+        }
 
         return array(
             'data' => $data, //用户信息

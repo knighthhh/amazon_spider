@@ -132,8 +132,12 @@
 						<td>url</td>
 						<td><?php echo $v['url']; ?></td>
 					</tr>
-					<tr>
-					</tr>
+					<?php foreach ($v['count_url'] as $kk => $vv): ?>
+						<tr>
+							<td><?php echo $kk?></td>
+							<td><?php echo $vv?></td>
+						</tr>
+					<?php endforeach; ?>
 				</table>
        		</div>
           </td>
