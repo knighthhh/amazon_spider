@@ -35,11 +35,12 @@ class Scheduler(object):
             # titles = html.xpath('//div[@class="a-row a-spacing-small"]//a/h2/text()')
             urls = html.xpath('//div[@class="a-row a-spacing-small"]//a/@href')
             for url in urls:
-                if url[0:4] == 'http':
-                    url = url
-                else:
-                    url = 'https://www.amazon.com' + url
                 detail_response = self.download.get_html(url)
+                try:
+                    url = re.search('<link rel="canonical" href="(.*?)"',detail_response.text).group(1)
+                except:
+                    url = url
+
                 detail_html = HTML(detail_response.text)
                 product_id = hashlib.md5(url.encode()).hexdigest()
                 title = detail_html.xpath('string(//h1[@id="title"])').strip()
