@@ -16,7 +16,7 @@ class KeywordController extends BaseController
 		$model = D('Keyword_res');
 		$info = $model->search();
 		$this->assign($info);
-		$this->display();
+		//$this->display();
 	}
 
 	public function sort_res(){
