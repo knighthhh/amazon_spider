@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="renderer" content="webkit">
-    <title>亚马逊爬虫管理中心</title>  
+    <title>亚马逊爬虫管理中心</title>
     <link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}pintuer.css">
     <link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}admin.css">
     <link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}font-awesome.min.css">
@@ -19,7 +19,8 @@
 <div class="header bg-main">
   <div class="logo margin-big-left fadein-top">
 
-    <h1><img src="{$Think.const.ADMIN_IMAGES_URL}y.png" class="radius-circle rotate-hover" height="50" alt="" />亚马逊爬虫管理中心</h1>
+    <!--<h1><img src="{$Think.const.ADMIN_IMAGES_URL}y.png" class="radius-circle rotate-hover" height="50" alt="" />亚马逊爬虫管理中心</h1>-->
+    <h1><img src="{$Think.const.ADMIN_IMAGES_URL}y.png" class="radius-circle rotate-hover" height="50" alt="" />aa</h1>
 
   </div>
   <!-- <div class="head-l"><a class="button button-little bg-blue" href="" target="_blank"><span class="icon-home"></span> 前台首页</a> &nbsp;&nbsp;<a class="button button-little bg-red" href="login.html"><span class="icon-power-off"></span> 退出登录</a> </div> -->
@@ -31,6 +32,7 @@
   <ul> 
    	<?php 
         echo authCheck(MODULE_NAME.'/Keyword/get_res',cookie('id'),'<li><a href="__MODULE__/Keyword/get_res" target="right"><span class="icon-caret-right"></span>关键词详情</a></li>');
+        echo authCheck(MODULE_NAME.'/Keyword/analyze',cookie('id'),'<li><a href="__MODULE__/Keyword/analyze" target="right"><span class="icon-caret-right"></span>关键词统计分析</a></li>');
      ?>
   </ul>
 </div>

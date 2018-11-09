@@ -12,6 +12,14 @@ class KeywordController extends BaseController
 		$this->display();
 	}
 
+    public function analyze(){
+		$model = D('Keyword_res');
+		$info = $model->search();
+		//dump($info);die;
+		$this->assign($info);
+		$this->display();
+	}
+
 }
 
  ?>

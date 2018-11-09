@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}pintuer.css">
+<link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}admin.css">
+<link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}jquery-ui.min.css">
+<link rel="stylesheet" href="{$Think.const.ADMIN_LAYUI_URL}css/layui.css">
+<link rel="stylesheet" href="{$Think.const.ADMIN_CSS_URL}font-awesome.min.css">
+<script src="{$Think.const.ADMIN_JS_URL}jquery.js"></script>
+<script src="{$Think.const.ADMIN_JS_URL}jquery-ui.min.js"></script>
+<script src="{$Think.const.ADMIN_JS_URL}pintuer.js"></script>
+<style type="text/css">
+	.dialogtable{border-collapse: collapse; width: 100%;padding-top: 12px;}
+	.dialogtable th{background-color: #E8E8E8;}
+	.dialogtable th,
+	.dialogtable td{border: solid 1px #ccc; padding: 8px;valign:middle;}
+	.button.border-green{ color:#22CC77;}
+	.pagelist span.current{background: #22CC77}
+	.level li{float:left;}
+	.bread{}
+</style>
+</head>
+<body>
+<form method="post" action="__SELF__" id="listform">
+  <div class="panel admin-panel">
+    <!-- <div class="panel-head">
+	    <strong class="icon-reorder"> 内容列表</strong>
+	</div> -->
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li>
+        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Export/add"><i class="layui-icon">&#xe654;</i>  导出</a>
+		</li>
+		<li>
+        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Select/add"><i class="layui-icon">&#xe654;</i>  筛选</a>
+		</li>
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+         <th width="5%" style="">id</th>
+         <th width="15%" style="">标题</th>
+         <!--<th width="5%" style="">链接</th>-->
+         <th width="10%">价格(美元)</th>
+         <th width="5%" style="">颜色</th>
+         <th width="5%">型号</th>
+		 <th width="5%">评论数</th>
+		 <th width="5%">评论评分</th>
+		 <th width="5%">跟卖数量</th>
+		 <th width="5%">编号</th>
+		 <th width="10%">排名1</th>
+		 <th width="10%">排名2</th>
+		 <th width="10%">爬取时间</th>
+      </tr>
+      <?php if(empty($data)): ?>
+      		<tr>
+      			<td></td>
+      			<td></td>
+      			<td></td>
+      			<td>
+      				<div style="padding:20px"><i class="layui-icon" style="font-size: 30px; color: #22CC77;">&#xe650;</i>空空如也~</div>
+      			</td>
+      		</tr>
+      <?php endif; ?>
+    <?php foreach ($data as $k => $v): ?>
+        <tr>
+			<td><?php echo $v['id']; ?></td>
+			<td><?php echo $v['title']; ?></td>
+			<!--<td><?php echo $v['url']; ?></td>-->
+			<td><?php echo $v['price']; ?></td>
+			<td><?php echo $v['color']; ?></td>
+			<td><?php echo $v['size']; ?></td>
+			<td><?php echo $v['commentcount']; ?></td>
+          	<td><?php echo $v['commentrating']; ?></td>
+ 			<td><?php echo $v['follow_sale_num']; ?></td>
+ 			<td><?php echo $v['asin']; ?></td>
+ 			<td><?php echo $v['rank1']; ?></td>
+ 			<td><?php echo $v['rank2']; ?></td>
+ 			<td><?php echo $v['crawled_time']; ?></td>
+			<td>
+         		 <a class="layui-btn layui-btn-primary layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id']; ?>, '450px','460px')"><i class="layui-icon">&#xe615;</i>　查看跟卖 </a>
+          		 <a class="layui-btn layui-btn layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'1'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　查看图片 </a>
+          		 <a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'2'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　词频统计 </a>
+
+
+          <!--<a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="del(<?php echo $v['user_id']; ?>)"> <i class="layui-icon">&#xe640;</i>　删　除</a></br>-->
+          <!--<div style="margin-top: 10px;margin-left: 0px">-->
+          	  <!--<a class="layui-btn layui-btn-primary layui-btn-mini" href="__MODULE__/HistoryVis/listHis/user_id/<?php echo $v['user_id']; ?>/relative_id/0"><i class="layui-icon">&#xe642;</i>历史就诊</a>-->
+			  <!--<a class="layui-btn layui-btn-danger layui-btn-mini" href="__MODULE__/User/edit/user_id/<?php echo $v['user_id']; ?>"><i class="layui-icon">&#xe63c;</i>用药日记</a>-->
+			  <!--<a class="layui-btn layui-btn-normal layui-btn-mini" href="__MODULE__/relative/listRela/user_id/<?php echo $v['user_id']; ?>"><i class="layui-icon">&#xe612;</i>亲友管理</a>-->
+			</td>
+          <td colspan="0">
+          	<!-- 跟卖信息 -->
+        	<div id="dialog<?php echo $v['id']; ?>" style="display:none;" title="详情信息">
+				<table class="dialogtable" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>跟卖id</td>
+						<td>价格</td>
+						<td>卖家名称</td>
+						<td>类型</td>
+					</tr>
+					<?php foreach ($v['follow_sale'] as $kk => $vv): ?>
+					<tr>
+						<td><?php echo $vv['id']; ?></td>
+						<td><?php echo $vv['price']; ?></td>
+						<td><?php echo $vv['seller']; ?></td>
+						<td><?php echo $vv['type']; ?></td>
+					</tr>
+					<?php endforeach; ?>
+				</table>
+       		</div>
+			  <!--图片信息-->
+			<div id="dialog<?php echo $v['id'].'1'; ?>" style="display:none;" title="详情信息">
+				<table class="dialogtable" cellspacing="0" cellpadding="0">
+					<?php foreach ($v['images'] as $kk => $vv): ?>
+					<tr>
+						<!--<td><?php showImage($v['user_img'],120,80); ?></td>-->
+						<td> <img src="<?php echo $vv['img_url']; ?>"></td>
+					</tr>
+					<?php endforeach; ?>
+				</table>
+       		</div>
+			    <!--词频统计-->
+			<div id="dialog<?php echo $v['id'].'2'; ?>" style="display:none;" title="详情信息">
+				<table class="dialogtable" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>url</td>
+						<td><?php echo $v['url']; ?></td>
+					</tr>
+					<?php foreach ($v['count_url'] as $kk => $vv): ?>
+						<tr>
+							<td><?php echo $kk?></td>
+							<td><?php echo $vv?></td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+       		</div>
+          </td>
+        </tr>
+        
+    <?php endforeach; ?>
+      <tr>
+        <!--<td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>-->
+          <!--全选 </td>-->
+        <!--<td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)" class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a>-->
+      </tr>
+      <tr>
+      	<td colspan="8">
+      	<div class="pagelist">
+      		{$page}
+      		</div>
+      	</td>
+      </tr>
+    </table>
+</form>
+<script src="{$Think.const.ADMIN_LAYUI_URL}lay/dest/layui.all.js"></script>
+<script type="text/javascript">
+
+//详情列表框
+function showDialog(id, width, height) {
+	layer.open({
+        type: 1,
+        area: [width,  height],
+        content: $("#dialog"+id),
+        shade:0,
+        skin:'layui-layer-lan',
+        offset: ['10px', '200px'],
+        cancel:function(index, layero){
+          $("#dialog"+id).css('display','none');
+          layer.close(index);
+        }
+    });	
+  };
+//单个删除
+function del(user_id){
+	if(confirm("您确定要删除吗?")){
+		window.location="__MODULE__/User/delete/user_id/"+user_id;
+	}
+}
+
+//全选
+$("#checkall").click(function(){ 
+  $("input[name='user_id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+	var user_id = new Array();
+	 $("input[name='user_id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;
+		var i = 0;
+		$("input[name='user_id[]']:checked").each(function(){
+			user_id[i] = this.value;
+			i++;
+		});
+		window.location="__MODULE__/User/delete/user_id/"+user_id;	
+		//$("#listform").submit();		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+
+</script>
+</body>
+</html>
