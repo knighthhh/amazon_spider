@@ -34,10 +34,10 @@
     <div class="padding border-bottom">
       <ul class="search" style="padding-left:10px;">
         <li>
-        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Export/add"><i class="layui-icon">&#xe654;</i>  导出</a>
+        	<a class="layui-btn layui-btn-normal" href="__MODULE__/Keyword/export"><i class="fa fa-hand-o-right"></i>  导出</a>
 		</li>
 		<li>
-        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Select/add"><i class="layui-icon">&#xe654;</i>  筛选</a>
+        	<a class="layui-btn layui-btn-primary" onclick="showDialog(4488, '550px','560px')"><i class="layui-icon">&#xe654;</i>  筛选</a>
 		</li>
       </ul>
     </div>
@@ -88,8 +88,8 @@
           		 <a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'2'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　词频统计 </a>
 
 
-          <!--<a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="del(<?php echo $v['user_id']; ?>)"> <i class="layui-icon">&#xe640;</i>　删　除</a></br>-->
-          <!--<div style="margin-top: 10px;margin-left: 0px">-->
+              <!--<a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="del(<?php echo $v['user_id']; ?>)"> <i class="layui-icon">&#xe640;</i>　删　除</a></br>-->
+              <!--<div style="margin-top: 10px;margin-left: 0px">-->
           	  <!--<a class="layui-btn layui-btn-primary layui-btn-mini" href="__MODULE__/HistoryVis/listHis/user_id/<?php echo $v['user_id']; ?>/relative_id/0"><i class="layui-icon">&#xe642;</i>历史就诊</a>-->
 			  <!--<a class="layui-btn layui-btn-danger layui-btn-mini" href="__MODULE__/User/edit/user_id/<?php echo $v['user_id']; ?>"><i class="layui-icon">&#xe63c;</i>用药日记</a>-->
 			  <!--<a class="layui-btn layui-btn-normal layui-btn-mini" href="__MODULE__/relative/listRela/user_id/<?php echo $v['user_id']; ?>"><i class="layui-icon">&#xe612;</i>亲友管理</a>-->
@@ -139,6 +139,53 @@
 						</tr>
 					<?php endforeach; ?>
 				</table>
+       		</div>
+                <!--筛选-->
+			<div id="dialog4488" style="display:none;" title="筛选">
+				<table class="dialogtable" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>价格排序</td>
+                        <td>
+                            <select class="price">
+                              <option value="0">默认</option>
+                              <option value="1">按从高到低</option>
+                              <option value="2">按从低到高</option>
+                            </select>
+                        </td>
+					</tr>
+					<tr>
+						<td>评论数</td>
+                        <td>
+                            <select class="comment">
+                              <option value="0">默认</option>
+                              <option value="1">按从高到低</option>
+                              <option value="2">按从低到高</option>
+                            </select>
+                        </td>
+					</tr>
+                    <tr>
+						<td>评论评分</td>
+                        <td>
+                            <select class="commentRating">
+                              <option value="0">默认</option>
+                              <option value="1">按从高到低</option>
+                              <option value="2">按从低到高</option>
+                            </select>
+                        </td>
+					</tr>
+                    <tr>
+						<td>跟卖数量</td>
+                        <td>
+                            <select class="follow">
+                              <option value="0">默认</option>
+                              <option value="1">按从高到低</option>
+                              <option value="2">按从低到高</option>
+                            </select>
+                        </td>
+					</tr>
+				</table>
+                <br/>
+                <a id="shaixuan" class="layui-btn layui-btn-primary layui-btn layui-layer-close" href="__MODULE__/Keyword/sort_res?price=1&comment=1&commentRating=1&follow=1" style="cursor:pointer" ><i class="layui-icon">&#xe615;</i>　提交 </a>
        		</div>
           </td>
         </tr>
@@ -220,6 +267,16 @@ function DelSelect(){
 		return false;
 	}
 }
+
+//筛选
+$("#shaixuan").click(function(){
+  var price = $(".price").val();
+  var comment = $(".comment").val();
+  var commentRating = $(".commentRating").val();
+  var follow = $(".follow").val();
+  var href_str = "__MODULE__/Keyword/sort_res?price="+price+"&comment="+comment+"&commentRating="+commentRating+"&follow="+follow
+  $("#shaixuan").attr("href",href_str);
+})
 
 </script>
 </body>
