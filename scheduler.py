@@ -48,10 +48,16 @@ class Scheduler(object):
                 product_id = hashlib.md5(url.encode()).hexdigest()
                 title = detail_html.xpath('string(//h1[@id="title"])').strip()
                 price = detail_html.xpath('string(//span[@id="priceblock_ourprice"])').replace(',', '').replace('$', '')
+                if price == '':
+                    price = 0
                 color = detail_html.xpath('string(//div[@id="variation_color_name"]//span)').strip()
                 size = detail_html.xpath('string(//div[@id="variation_size_name"]//span)').strip()
                 commentCount = detail_html.xpath('string(//span[@id="acrCustomerReviewText"])').split(' ')[0].replace(',', '')
+                if commentCount == '':
+                    commentCount = 0
                 commentRating = detail_html.xpath('string(//a[@class="a-popover-trigger a-declarative"]/i/span)').split(' ')[0]
+                if commentRating == '':
+                    commentRating = 0
                 crawled_timestamp = int(time.time())
                 crawled_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 

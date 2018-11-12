@@ -63,7 +63,7 @@ class Download(object):
                 response = requests.get(url, headers=config.HEADERS, cookies=config.COOKIES, proxies=proxies)
             else:
                 if config.PROXY_SWITCH:
-                    response = requests.get(url, headers=config.HEADERS, proxies=proxies)
+                    response = requests.get(url, headers=config.HEADERS, proxies=proxies, verify=False)
                 else:
                     response = requests.get(url, headers=config.HEADERS, verify=False)
                     response.encoding = "utf-8"

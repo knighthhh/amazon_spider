@@ -36,8 +36,8 @@ class Bestseller(object):
         res2 = self.get_url('twodepa')
         res3 = self.get_url('threedepa')
 
-        self.get_html(res1)
-        # self.get_html(res2)
+        # self.get_html(res1)
+        self.get_html(res2)
         # self.get_html(res3)
 
     def get_url(self,typename):
@@ -56,14 +56,14 @@ class Bestseller(object):
             temp_url_lit.append(url_one)
             temp_url_lit.append(url_tow)
             for url in temp_url_lit:
-                print(url)
                 response = self.download.get_html(url)
+                print(str(response.status_code) + '  ' + url)
                 if response:
                     html = HTML(response.text)
                     url_list = html.xpath('//div[@id="zg-center-div"]/ol/li//a[@class="a-link-normal a-text-normal"]/@href')
                     for detail_url in url_list:
                         spider_url = 'https://www.amazon.com' + detail_url
-                        print(spider_url)
+                        print(str(response.status_code) + '  ' + spider_url)
                         detail_response = self.download.get_html(spider_url)
                         if detail_response:
                             detail_html = HTML(detail_response.text)
@@ -73,10 +73,16 @@ class Bestseller(object):
                             product_id = hashlib.md5(detail_url.encode()).hexdigest()
                             title = detail_html.xpath('string(//h1[@id="title"])').strip()
                             price = detail_html.xpath('string(//span[@id="priceblock_ourprice"])').replace(',', '').replace('$', '')
+                            if price == '':
+                                price = 0
                             color = detail_html.xpath('string(//div[@id="variation_color_name"]//span)').strip()
                             size = detail_html.xpath('string(//div[@id="variation_size_name"]//span)').strip()
                             commentCount = detail_html.xpath('string(//span[@id="acrCustomerReviewText"])').split(' ')[0].replace(',', '')
+                            if commentCount == '':
+                                commentCount = 0
                             commentRating = detail_html.xpath('string(//a[@class="a-popover-trigger a-declarative"]/i/span)').split(' ')[0]
+                            if commentRating == '':
+                                commentRating = 0
                             crawled_timestamp = int(time.time())
                             crawled_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                             # 编号
