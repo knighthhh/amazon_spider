@@ -105,7 +105,7 @@ class Scheduler(object):
 
                 #跟卖信息入库
                 have_follow_sale = '0'
-                follow_sale_num = None
+                follow_sale_num = 0
                 follow_sale_str = detail_html.xpath('string(//div[@id="olp_feature_div"]/div/span)')
                 if follow_sale_str != '':
                     have_follow_sale = '1'
@@ -152,7 +152,7 @@ class Scheduler(object):
                 self.db.save(sql)
 
     def get_follow_sale(self, url, follow_sale_num):
-        if follow_sale_num == None:
+        if follow_sale_num == 0:
             return []
         if int(follow_sale_num) > 10:
             pageNum = math.ceil(int(follow_sale_num)/10)
