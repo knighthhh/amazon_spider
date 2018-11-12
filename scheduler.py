@@ -12,6 +12,7 @@ import hashlib
 from lxml.etree import HTML
 from lxml import etree
 import math
+import get_bestseller
 from download import Download
 from db import MongoClient, MysqlClient, RedisClient
 
@@ -23,8 +24,10 @@ class Scheduler(object):
         # self.redisClient = RedisClient()
 
     def run(self):
-        for i in range(1,11):
-            self.get_kw(str(i))
+        bestseller = get_bestseller.Bestseller()
+        bestseller.start()
+        # for i in range(1,11):
+        #     self.get_kw(str(i))
 
     def get_kw(self, page):
         url = 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=iphone&page={page}'.format(page=page)
