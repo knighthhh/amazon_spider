@@ -5,10 +5,7 @@ use Think\Controller;
 class BestsellerController extends BaseController
 {
 	public function get_bestseller(){
-		$model = D('Keyword_res');
-		$info = $model->search();
-		//dump($info);die;
-		$this->assign($info);
+
 		$this->display();
 	}
 
@@ -32,6 +29,14 @@ class BestsellerController extends BaseController
         $res = $model->where($data) -> select();
     	echo json_encode($res);
 	}
+
+	public function get_item(){
+		$model = M('bestseller');
+	    $data['typeid'] = I('post.query_id');
+        $res = $model->where($data) -> select();
+    	echo json_encode($res);
+	}
+
 }
 
 ?>

@@ -46,11 +46,12 @@
         <li><a id="level1" class="layui-btn layui-btn-primary"  data-toggle="modal" data-target="#Modal1"><i class="fa fa-chevron-down"></i>  一级分类</a></li>
         <li><a id="level2" class="layui-btn layui-btn-primary"  data-toggle="modal" data-target="#Modal2"><i class="fa fa-chevron-down"></i>  二级分类</a></li>
         <li><a id="level3" class="layui-btn layui-btn-primary"  data-toggle="modal" data-target="#Modal3"><i class="fa fa-chevron-down"></i>  三级分类</a></li>
+        <li><a id="query" class="layui-btn layui-btn-normal" ><i class="layui-icon">&#xe615;</i>  查询</a></li>
         <!--<li><a class="layui-btn layui-btn-normal" href="__MODULE__/Keyword/export_excel"><i class="fa fa-hand-o-right"></i>  导出</a></li>-->
 		<!--<li><a class="layui-btn layui-btn-primary" onclick="showDialog(4488, '550px','560px')"><i class="layui-icon">&#xe654;</i>  筛选</a></li>-->
       </ul>
     </div>
-    <table class="table table-hover text-center">
+    <table id="results" class="table table-hover text-center">
       <tr>
          <th width="5%" style="">id</th>
          <th width="15%" style="">标题</th>
@@ -62,8 +63,7 @@
 		 <th width="5%">评论评分</th>
 		 <th width="5%">跟卖数量</th>
 		 <th width="5%">编号</th>
-		 <th width="10%">排名1</th>
-		 <th width="10%">排名2</th>
+		 <th width="10%">排名</th>
 		 <th width="10%">爬取时间</th>
       </tr>
       <?php if(empty($data)): ?>
@@ -76,8 +76,10 @@
       			</td>
       		</tr>
       <?php endif; ?>
+
     <?php foreach ($data as $k => $v): ?>
-        <tr>
+		<tr>
+
 			<td><?php echo $v['id']; ?></td>
 			<td><?php echo $v['title']; ?></td>
 			<!--<td><?php echo $v['url']; ?></td>-->
@@ -198,7 +200,6 @@
        		</div>
           </td>
         </tr>
-        
     <?php endforeach; ?>
       <tr>
         <!--<td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>-->
@@ -337,8 +338,10 @@ $("#shaixuan").click(function(){
 //模态框时间
 $('#Modal1 .modal-body').on('click','button',function(){
 			var valid = $(this).attr('valid');
+			var pid = $(this).attr('pid');
 			var typename = $(this).html();
 			$('#level1').attr("valid",valid);
+			$('#level1').attr("pid",pid);
 			$('#level1').html(typename);
 			$('#Modal1').modal('hide');
 
@@ -348,8 +351,10 @@ $('#Modal1 .modal-body').on('click','button',function(){
 
 		$('#Modal2 .modal-body').on('click','button',function(){
 			var leveltwo = $(this).attr('valid');
+			var pid = $(this).attr('pid');
 			var typename = $(this).html();
 			$('#level2').attr("valid",leveltwo);
+			$('#level2').attr("pid",pid);
 			$('#level2').html(typename);
 			$('#Modal2').modal('hide');
 
@@ -358,8 +363,10 @@ $('#Modal1 .modal-body').on('click','button',function(){
 
 		$('#Modal3 .modal-body').on('click','button',function(){
 			var levelthree = $(this).attr('valid');
+			var pid = $(this).attr('pid');
 			var typename = $(this).html();
 			$('#level3').attr("valid",levelthree);
+			$('#level3').attr("pid",pid);
 			$('#level3').html(typename);
 			$('#Modal3').modal('hide');
 		})
@@ -376,7 +383,7 @@ $('#Modal1 .modal-body').on('click','button',function(){
 			    success:function(data) {
 			       	var s="";
 					for(var i=0;i<data.length;++i){
-						s += '<button valid="'+data[i].id+'" type="button" class="btn btn-warning ">'+data[i].screenname+'</button>&nbsp;';
+						s += '<button pid="'+data[i].id+'" valid="'+data[i].deparmentid+'" type="button" class="btn btn-warning ">'+data[i].screenname+'</button>&nbsp;';
 					}
 					$('.modal-body').html(s);
 			     },
@@ -390,14 +397,14 @@ $('#Modal1 .modal-body').on('click','button',function(){
 			$.ajax( {
 			    url:host_url + '/amazon_spider/web/index.php/Admin/Bestseller/get_leveltwo',
 			    data:{
-			    		pid:$('#level1').attr("valid"),
+			    		pid:$('#level1').attr("pid"),
 			    },
 			    type:'POST',
 			    dataType:'json',
 			    success:function(data) {
 			       	var s="";
 					for(var i=0;i<data.length;++i){
-						s += '<button valid="'+data[i].id+'" type="button" class="btn btn-warning ">'+data[i].screenname+'</button>&nbsp;';
+						s += '<button pid="'+data[i].id+'" valid="'+data[i].deparmentid+'" type="button" class="btn btn-warning ">'+data[i].screenname+'</button>&nbsp;';
 					}
 					$('.modal-body').html(s);
 			     },
@@ -411,16 +418,71 @@ $('#Modal1 .modal-body').on('click','button',function(){
 			$.ajax( {
 			    url:host_url + '/amazon_spider/web/index.php/Admin/Bestseller/get_levelthree',
 			    data:{
-			    		pid:$('#level2').attr("valid"),
+			    		pid:$('#level2').attr("pid"),
 			    },
 			    type:'POST',
 			    dataType:'json',
 			    success:function(data) {
 			       	var s="";
 					for(var i=0;i<data.length;++i){
-						s += '<button valid="'+data[i].id+'" type="button" class="btn btn-warning ">'+data[i].screenname+'</button>&nbsp;';
+						s += '<button pid="'+data[i].id+'" valid="'+data[i].deparmentid+'" type="button" class="btn btn-warning ">'+data[i].screenname+'</button>&nbsp;';
 					}
 					$('.modal-body').html(s);
+			     },
+			     error : function(XMLHttpRequest, textStatus, errorThrown) {
+			     }
+			});
+		})
+
+	//查询
+	$('#query').on('click',function(){
+			var level1 = $('#level1').attr("valid");
+			var level2  = $('#level2').attr("valid");
+			var level3  = $('#level3').attr("valid");
+			if(level3){
+			    var query_id = level3
+			}else if (level2){
+			    var query_id = level2
+			}else if (level1){
+			    var query_id = level1
+			}
+
+			 $('#level1').attr("valid",'');
+			 $('#level2').attr("valid",'');
+			 $('#level3').attr("valid",'');
+
+
+			$.ajax( {
+			    url:host_url + '/amazon_spider/web/index.php/Admin/Bestseller/get_item',
+			    data:{
+			    		query_id:query_id,
+			    },
+			    type:'POST',
+			    dataType:'json',
+			    success:function(data) {
+			    	if(data.length==0){
+			    		var s="";
+			    		s +='<tr><th width ="5%"style="">id</th ><th width ="15%"style="">标题</th ><th width ="10%">价格(美元)</th ><th width ="5%"style="">颜色</th ><th width ="5%">型号</th ><th width ="5%">评论数</th ><th width ="5%">评论评分</th ><th width ="5%">跟卖数量</th ><th width ="5%">编号</th ><th width ="10%">排名</th ><th width ="10%">爬取时间</th ></tr>';
+			    		$('#results').html(s);
+			    	}else{
+			    		var s="";
+			    		s +='<tr><th width ="5%"style="">id</th ><th width ="15%"style="">标题</th ><th width ="10%">价格(美元)</th ><th width ="5%"style="">颜色</th ><th width ="5%">型号</th ><th width ="5%">评论数</th ><th width ="5%">评论评分</th ><th width ="5%">跟卖数量</th ><th width ="5%">编号</th ><th width ="10%">排名</th ><th width ="10%">爬取时间</th ></tr>';
+						for(var i=0;i<data.length;++i){
+						    s +='<tr><td>'+data[i].id+'</td>';
+							s +='<td>'+data[i].title+'</td>';
+							s +='<td>'+data[i].price+'</td>';
+							s +='<td>'+data[i].color+'</td>';
+							s +='<td>'+data[i].size+'</td>';
+							s +='<td>'+data[i].commentcount+'</td>';
+							s +='<td>'+data[i].commentrating+'</td>';
+							s +='<td>'+data[i].follow_sale_num+'</td>';
+							s +='<td>'+data[i].asin+'</td>';
+							s +='<td>'+data[i].sellrank+'</td>';
+							s +='<td>'+data[i].crawled_time+'</td></tr>';
+							// s +='<img alt="140x140" src="'+data[i].title+'" /></div><div class="col-md-4">';
+						}
+						$('#results').html(s);
+			    	}
 			     },
 			     error : function(XMLHttpRequest, textStatus, errorThrown) {
 			     }

@@ -36,8 +36,8 @@ class Bestseller(object):
         res2 = self.get_url('twodepa')
         res3 = self.get_url('threedepa')
 
-        # self.get_html(res1)
-        self.get_html(res2)
+        self.get_html(res1)
+        # self.get_html(res2)
         # self.get_html(res3)
 
     def get_url(self,typename):
@@ -48,7 +48,7 @@ class Bestseller(object):
     def get_html(self,results):
         for res in results:
             url = res[5]
-            typeid= res[0]
+            typeid= res[1]
             temp_url_lit = []
             url_one = url
             page2_replace = re.search('https://www.amazon.com.*?ref=zg_bs_(.*?/\d+-\d+-\d+)', url).group(1)
@@ -63,7 +63,6 @@ class Bestseller(object):
                     url_list = html.xpath('//div[@id="zg-center-div"]/ol/li//a[@class="a-link-normal a-text-normal"]/@href')
                     for detail_url in url_list:
                         spider_url = 'https://www.amazon.com' + detail_url
-                        print(str(response.status_code) + '  ' + spider_url)
                         detail_response = self.download.get_html(spider_url)
                         if detail_response:
                             detail_html = HTML(detail_response.text)
@@ -167,6 +166,7 @@ class Bestseller(object):
                                     sellrank, title, spider_url, price, commentCount, crawled_timestamp, crawled_time,follow_sale_num)
                             print(sql)
                             self.mysql.save(sql)
+                            break
 
     def get_follow_sale(self, url, follow_sale_num):
         if follow_sale_num == 0:
