@@ -9,12 +9,10 @@ class KeywordResModel extends Model{
         $count = $this->count();
          /*搜索*/
         $where = array();
-//      $searchValue = I('post.searchValue');
-//      if($searchValue){
-//          $where['user_phone'] = array('like',"%$searchValue%");
-//          $where['user_name'] = array('like',"%$searchValue%");
-//          $where['_logic'] = 'or';
-//      }
+        $searchValue = I('post.searchValue');
+        if($searchValue){
+          $where['keywordtype'] = array('like',"%$searchValue%");
+        }
         //实例化翻页类对象
         $pageObj = new \Think\Page($count, $perPage);
         //设置翻页样式
@@ -71,6 +69,13 @@ class KeywordResModel extends Model{
 	    $max = $_GET['max'];
 	    $between_type = $_GET['between_type'];
 	    $where = array();
+
+	    $searchValue = I('post.searchValue');
+	    print_r($searchValue);
+        if($searchValue){
+          $where['keywordtype'] = array('like',"%$searchValue%");
+        }
+
 	    if($between_type=='price'){
             $where['price'] = array('egt',$min);
             $where['price'] = array('elt',$max);

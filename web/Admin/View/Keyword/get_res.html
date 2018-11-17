@@ -39,11 +39,16 @@
 		<li>
         	<a class="layui-btn layui-btn-primary" onclick="showDialog(4488, '580px','500px')"><i class="layui-icon">&#xe654;</i>  筛选</a>
 		</li>
+        <li style="margin-left: 500px">
+          <input type="text" placeholder="请输入要查询的关键字" name="searchValue" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a class="layui-btn layui-btn" style="cursor:pointer" onclick="$('#listform').submit()"><i class="layui-icon">&#xe615;</i>  搜索</a>
+        </li>
       </ul>
     </div>
     <table class="table table-hover text-center">
       <tr>
          <th width="5%" style="">id</th>
+         <th width="10%" style="">关键词</th>
          <th width="15%" style="">标题</th>
          <!--<th width="5%" style="">链接</th>-->
          <th width="10%">价格(美元)</th>
@@ -70,6 +75,7 @@
     <?php foreach ($data as $k => $v): ?>
         <tr>
 			<td><?php echo $v['id']; ?></td>
+			<td><?php echo $v['keywordtype']; ?></td>
 			<td><?php echo $v['title']; ?></td>
 			<!--<td><?php echo $v['url']; ?></td>-->
 			<td><?php echo $v['price']; ?></td>
