@@ -24,13 +24,13 @@ class Scheduler(object):
         # self.redisClient = RedisClient()
 
     def run(self):
-        bestseller = get_bestseller.Bestseller()
-        bestseller.start()
-        # for i in range(1,11):
-        #     self.get_kw(str(i))
+        # bestseller = get_bestseller.Bestseller()
+        # bestseller.start()
+        for i in range(1,11):
+            self.get_kw('iphone',str(i))
 
-    def get_kw(self, page):
-        url = 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=iphone&page={page}'.format(page=page)
+    def get_kw(self,kw, page):
+        url = 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords={kw}&page={page}'.format(kw=kw,page=page)
         print(url)
         response = self.download.get_html(url)
         if response is not None:
@@ -38,6 +38,8 @@ class Scheduler(object):
             # titles = html.xpath('//div[@class="a-row a-spacing-small"]//a/h2/text()')
             urls = html.xpath('//div[@class="a-row a-spacing-small"]//a/@href')
             for url in urls:
+                if url[:3] == '/gp':
+                    url = 'https://www.amazon.com' + url
                 detail_response = self.download.get_html(url)
                 try:
                     url = re.search('<link rel="canonical" href="(.*?)"',detail_response.text).group(1)
@@ -60,6 +62,8 @@ class Scheduler(object):
                     commentRating = 0
                 crawled_timestamp = int(time.time())
                 crawled_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                crawled_date = time.strftime("%Y-%m-%d", time.localtime())
+                keywordtype = kw
 
                 #编号
                 try:
@@ -151,9 +155,9 @@ class Scheduler(object):
                     'follow_sale_num': follow_sale_num,
                 }
                 print(obj)
-                sql = "insert into keyword_res(product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"\
-                      % (product_id, title, url, price, color, size, commentCount, commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2, crawled_timestamp, crawled_time)\
-                      + "ON DUPLICATE KEY UPDATE title='%s', url='%s', price='%s',commentCount='%s',crawled_timestamp='%s',crawled_time='%s'"%(title,url,price,commentCount,crawled_timestamp,crawled_time)
+                sql = "insert into keyword_res(product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time,crawled_date,keywordtype) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"\
+                      % (product_id, title, url, price, color, size, commentCount, commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2, crawled_timestamp, crawled_time,crawled_date,keywordtype)\
+                      + "ON DUPLICATE KEY UPDATE title='%s', url='%s', price='%s',commentCount='%s',crawled_timestamp='%s',crawled_time='%s',crawled_date='%s'"%(title,url,price,commentCount,crawled_timestamp,crawled_time,crawled_date)
                 print(sql)
                 self.db.save(sql)
 
