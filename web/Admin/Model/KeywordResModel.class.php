@@ -67,6 +67,28 @@ class KeywordResModel extends Model{
 	    $comment = $_GET['comment'];
 	    $commentRating = $_GET['commentRating'];
 	    $follow = $_GET['follow'];
+	    $min = $_GET['min'];
+	    $max = $_GET['max'];
+	    $between_type = $_GET['between_type'];
+	    print_r($between_type);
+	    print_r($min);
+	    print_r($max);
+	    $where = array();
+	    if($between_type=='price'){
+            $where['price'] = array('egt',$min);
+            $where['price'] = array('elt',$max);
+	    }else if($between_type=='comment'){
+            $where['commentCount'] = array('egt',$min);
+            $where['commentCount'] = array('elt',$max);
+	    }else if($between_type=='commentRating'){
+            $where['commentRating'] = array('egt',$min);
+            $where['commentRating'] = array('elt',$max);
+	    }else if($between_type=='follow'){
+            $where['follow_sale_num'] = array('egt',$min);
+            $where['follow_sale_num'] = array('elt',$max);
+	    }
+
+
 
         $temparr = array();
         if($price == '1'){
@@ -105,6 +127,7 @@ class KeywordResModel extends Model{
 
         $data       = $this
             ->order($orderstr)
+            ->where($where)
             ->limit($pageObj->firstRow . "," . $pageObj->listRows)
             ->select();
 

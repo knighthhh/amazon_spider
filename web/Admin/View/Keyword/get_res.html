@@ -37,7 +37,7 @@
         	<a class="layui-btn layui-btn-normal" href="__MODULE__/Keyword/export_excel"><i class="fa fa-hand-o-right"></i>  导出</a>
 		</li>
 		<li>
-        	<a class="layui-btn layui-btn-primary" onclick="showDialog(4488, '550px','560px')"><i class="layui-icon">&#xe654;</i>  筛选</a>
+        	<a class="layui-btn layui-btn-primary" onclick="showDialog(4488, '580px','500px')"><i class="layui-icon">&#xe654;</i>  筛选</a>
 		</li>
       </ul>
     </div>
@@ -151,6 +151,8 @@
                               <option value="1">按从高到低</option>
                               <option value="2">按从低到高</option>
                             </select>
+							<input type="text" name="min1"> — <input type="text" name="max1">
+
                         </td>
 					</tr>
 					<tr>
@@ -161,6 +163,7 @@
                               <option value="1">按从高到低</option>
                               <option value="2">按从低到高</option>
                             </select>
+							<input type="text" name="min2"> — <input type="text" name="max2">
                         </td>
 					</tr>
                     <tr>
@@ -171,6 +174,7 @@
                               <option value="1">按从高到低</option>
                               <option value="2">按从低到高</option>
                             </select>
+							<input type="text" name="min3"> — <input type="text" name="max3">
                         </td>
 					</tr>
                     <tr>
@@ -181,6 +185,7 @@
                               <option value="1">按从高到低</option>
                               <option value="2">按从低到高</option>
                             </select>
+							<input type="text" name="min4"> — <input type="text" name="max4">
                         </td>
 					</tr>
 				</table>
@@ -270,11 +275,50 @@ function DelSelect(){
 
 //筛选
 $("#shaixuan").click(function(){
+	var min1 = $("input[name='min1']").val();
+	var max1 = $("input[name='max1']").val();
+	var min2 = $("input[name='min2']").val();
+   var max2 =$("input[name='max2']").val();
+   var min3 = $("input[name='min3']").val();
+   var max3 = $("input[name='max3']").val();
+   var min4 = $("input[name='min4']").val();
+   var max4 =$("input[name='max4']").val();
+   var min =0
+	var max =999999
+	var between_type=''
+	if(min1!=''){
+       min=min1
+		between_type='price'
+	}else if(min2!=''){
+       min=min2
+		between_type ='comment'
+	}else if(min3!=''){
+       min=min3
+		between_type ='commentRating'
+	}else if(min4!=''){
+       min=min4
+		between_type ='follow'
+	}
+
+	if(max1!=''){
+       max=max1
+		between_type='price'
+	}else if(max2!=''){
+       max=max2
+		between_type ='comment'
+	}else if(max3!=''){
+       max=max3
+		between_type ='commentRating'
+	}else if(max4!=''){
+       max=max4
+		between_type ='follow'
+	}
+
   var price = $(".price").val();
   var comment = $(".comment").val();
   var commentRating = $(".commentRating").val();
   var follow = $(".follow").val();
-  var href_str = "__MODULE__/Keyword/sort_res?price="+price+"&comment="+comment+"&commentRating="+commentRating+"&follow="+follow
+  var href_str = "__MODULE__/Keyword/sort_res?price="+price+"&comment="+comment+"&commentRating="+commentRating+"&follow="+follow+'&min='+min+'&max='+max +'&between_type='+between_type
   $("#shaixuan").attr("href",href_str);
 })
 
