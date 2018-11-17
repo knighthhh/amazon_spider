@@ -70,9 +70,6 @@ class KeywordResModel extends Model{
 	    $min = $_GET['min'];
 	    $max = $_GET['max'];
 	    $between_type = $_GET['between_type'];
-	    print_r($between_type);
-	    print_r($min);
-	    print_r($max);
 	    $where = array();
 	    if($between_type=='price'){
             $where['price'] = array('egt',$min);
