@@ -33,29 +33,24 @@
 	</div> -->
     <div class="padding border-bottom">
       <ul class="search" style="padding-left:10px;">
-        <li>
-        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Export/add"><i class="layui-icon">&#xe654;</i>  导出</a>
-		</li>
-		<li>
-        	<a class="layui-btn layui-btn-primary" href="__MODULE__/Select/add"><i class="layui-icon">&#xe654;</i>  筛选</a>
-		</li>
+        <!--<li>-->
+        	<!--<a class="layui-btn layui-btn-primary" href="__MODULE__/Export/add"><i class="layui-icon">&#xe654;</i>  导出</a>-->
+		<!--</li>-->
+		<!--<li>-->
+        	<!--<a class="layui-btn layui-btn-primary" href="__MODULE__/Select/add"><i class="layui-icon">&#xe654;</i>  筛选</a>-->
+		<!--</li>-->
       </ul>
     </div>
     <table class="table table-hover text-center">
       <tr>
-         <th width="5%" style="">id</th>
-         <th width="15%" style="">标题</th>
-         <!--<th width="5%" style="">链接</th>-->
-         <th width="10%">价格(美元)</th>
-         <th width="5%" style="">颜色</th>
-         <th width="5%">型号</th>
-		 <th width="5%">评论数</th>
-		 <th width="5%">评论评分</th>
-		 <th width="5%">跟卖数量</th>
-		 <th width="5%">编号</th>
-		 <th width="10%">排名1</th>
-		 <th width="10%">排名2</th>
-		 <th width="10%">爬取时间</th>
+         <!--<th width="5%" style="">id</th>-->
+         <th width="15%" style="">关键词</th>
+         <th width="10%">搜索显示总数</th>
+         <th width="10%">实际爬取数</th>
+         <th width="10%">价格平均数</th>
+		 <th width="10%">评论平均数</th>
+		 <th width="10%">评分平均数</th>
+		 <th width="10%">跟卖平均数</th>
       </tr>
       <?php if(empty($data)): ?>
       		<tr>
@@ -69,22 +64,16 @@
       <?php endif; ?>
     <?php foreach ($data as $k => $v): ?>
         <tr>
-			<td><?php echo $v['id']; ?></td>
-			<td><?php echo $v['title']; ?></td>
-			<!--<td><?php echo $v['url']; ?></td>-->
-			<td><?php echo $v['price']; ?></td>
-			<td><?php echo $v['color']; ?></td>
-			<td><?php echo $v['size']; ?></td>
-			<td><?php echo $v['commentcount']; ?></td>
-          	<td><?php echo $v['commentrating']; ?></td>
- 			<td><?php echo $v['follow_sale_num']; ?></td>
- 			<td><?php echo $v['asin']; ?></td>
- 			<td><?php echo $v['rank1']; ?></td>
- 			<td><?php echo $v['rank2']; ?></td>
- 			<td><?php echo $v['crawled_time']; ?></td>
+			<td><?php echo $v['keywordtype']; ?></td>
+			<td><?php echo $v['']; ?></td>
+			<td><?php echo $v['num']; ?></td>
+			<td><?php echo $v['avgprice']; ?></td>
+			<td><?php echo $v['avgcomment']; ?></td>
+			<td><?php echo $v['avgrating']; ?></td>
+			<td><?php echo $v['avgfollow']; ?></td>
 			<td>
-         		 <a class="layui-btn layui-btn-primary layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id']; ?>, '450px','460px')"><i class="layui-icon">&#xe615;</i>　查看跟卖 </a>
-          		 <a class="layui-btn layui-btn layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'1'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　查看图片 </a>
+         		 <!--<a class="layui-btn layui-btn-primary layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id']; ?>, '450px','460px')"><i class="layui-icon">&#xe615;</i>　查看跟卖 </a>-->
+          		 <!--<a class="layui-btn layui-btn layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'1'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　查看图片 </a>-->
           		 <a class="layui-btn layui-btn-danger layui-btn-mini" style="cursor:pointer" onclick="showDialog(<?php echo $v['id'].'2'; ?>, '550px','550px')"><i class="layui-icon">&#xe642;</i>　词频统计 </a>
 
 

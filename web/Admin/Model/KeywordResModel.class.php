@@ -167,6 +167,48 @@ class KeywordResModel extends Model{
         );
 	}
 
+	#分析
+	public function analyze($perPage=10)
+	{
+        $count = $this->count();
+
+        $where = array();
+        //$searchValue = I('post.searchValue');
+        //if($searchValue){
+          //$where['keywordtype'] = array('like',"%$searchValue%");
+        //}
+
+        //实例化翻页类对象
+        $pageObj = new \Think\Page($count, $perPage);
+        //设置翻页样式
+        $pageObj->setConfig('next', '下一页');
+        $pageObj->setConfig('prev', '上一页');
+        //生成翻页按钮（上一页，下一页）
+        $pageButton = $pageObj->show();
+        $data       = $this
+            ->where($where)
+            ->field('keywordtype,count(*) as num,sum(price)/count(*) as avgprice,sum(commentCount)/count(*) as avgcomment,sum(commentRating)/count(*) as avgrating,sum(follow_sale_num)/count(*) as avgfollow')
+            ->group('keywordtype')
+            ->limit($pageObj->firstRow . "," . $pageObj->listRows)
+            ->select();
+
+         //处理url词频统计
+        //foreach($data as $k=>$v){
+          //  $url = $v['url'];
+            //preg_match('/https:\/\/www.amazon.com\/([^.]+)\/dp\//',$url, $matches);
+            //$match_res = $matches[1];
+            //$split_res = explode("-",$match_res);
+            //$res = array_count_values($split_res);
+            //$data[$k]['count_url'] = $res;
+        //}
+
+        return array(
+            'data' => $data, //用户信息
+            'page' => $pageButton, //分页结果
+        );
+	}
+
+
 	protected function _before_insert(&$data,$option){
 
 		

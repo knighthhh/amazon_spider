@@ -14,9 +14,9 @@ class KeywordController extends BaseController
 
     public function analyze(){
 		$model = D('Keyword_res');
-		$info = $model->search();
+		$info = $model->analyze();
 		$this->assign($info);
-		//$this->display();
+		$this->display();
 	}
 
 	public function sort_res(){
