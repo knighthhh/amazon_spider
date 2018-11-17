@@ -38,7 +38,7 @@ class Bestseller(object):
 
         # self.get_html(res1)
         # self.get_html(res2)
-        self.get_html(res3[16:])
+        self.get_html(res3[4317:4319])
 
     def get_url(self,typename):
         sql = "select * from %s"%(typename)
@@ -163,7 +163,7 @@ class Bestseller(object):
                             sql = "insert into bestseller(typeid,sellrank,product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time,crawled_date) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" \
                                   % (typeid,sellrank,product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time,crawled_date) \
                                   + "ON DUPLICATE KEY UPDATE sellrank='%s',title='%s', url='%s', price='%s',commentCount='%s',crawled_timestamp='%s',crawled_time='%s',crawled_date='%s',follow_sale_num='%s'" % (
-                                    sellrank, title, spider_url, price, commentCount, crawled_timestamp, crawled_time,follow_sale_num)
+                                    sellrank, title, spider_url, price, commentCount, crawled_timestamp, crawled_time,crawled_date,follow_sale_num)
                             print(sql)
                             self.mysql.save(sql)
 
