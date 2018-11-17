@@ -32,13 +32,13 @@ class Bestseller(object):
         self.mysql = MysqlClient()
 
     def start(self):
-        res1 = self.get_url('onedepa')
-        res2 = self.get_url('twodepa')
+        # res1 = self.get_url('onedepa')
+        # res2 = self.get_url('twodepa')
         res3 = self.get_url('threedepa')
 
-        self.get_html(res1)
+        # self.get_html(res1)
         # self.get_html(res2)
-        # self.get_html(res3)
+        self.get_html(res3[16:])
 
     def get_url(self,typename):
         sql = "select * from %s"%(typename)
@@ -57,7 +57,6 @@ class Bestseller(object):
             temp_url_lit.append(url_tow)
             for url in temp_url_lit:
                 response = self.download.get_html(url)
-                print(str(response.status_code) + '  ' + url)
                 if response:
                     html = HTML(response.text)
                     url_list = html.xpath('//div[@id="zg-center-div"]/ol/li//a[@class="a-link-normal a-text-normal"]/@href')
@@ -84,6 +83,7 @@ class Bestseller(object):
                                 commentRating = 0
                             crawled_timestamp = int(time.time())
                             crawled_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                            crawled_date = time.strftime("%Y-%m-%d", time.localtime())
                             # 编号
                             try:
                                 asin = re.search('https://www.amazon.com/.*?/dp/(.*?)/ref=.*?', spider_url).group(1)
@@ -160,13 +160,12 @@ class Bestseller(object):
                                 self.mysql.save(sql)
 
                             # 商品信息入库
-                            sql = "insert into bestseller(typeid,sellrank,product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" \
-                                  % (typeid,sellrank,product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time) \
-                                  + "ON DUPLICATE KEY UPDATE sellrank='%s',title='%s', url='%s', price='%s',commentCount='%s',crawled_timestamp='%s',crawled_time='%s',follow_sale_num='%s'" % (
+                            sql = "insert into bestseller(typeid,sellrank,product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time,crawled_date) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" \
+                                  % (typeid,sellrank,product_id,title,url,price,color,size,commentCount,commentRating,have_follow_sale,follow_sale_num,asin,rank1,rank2,crawled_timestamp,crawled_time,crawled_date) \
+                                  + "ON DUPLICATE KEY UPDATE sellrank='%s',title='%s', url='%s', price='%s',commentCount='%s',crawled_timestamp='%s',crawled_time='%s',crawled_date='%s',follow_sale_num='%s'" % (
                                     sellrank, title, spider_url, price, commentCount, crawled_timestamp, crawled_time,follow_sale_num)
                             print(sql)
                             self.mysql.save(sql)
-                            break
 
     def get_follow_sale(self, url, follow_sale_num):
         if follow_sale_num == 0:
