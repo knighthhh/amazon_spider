@@ -24,10 +24,10 @@ class Scheduler(object):
         # self.redisClient = RedisClient()
 
     def run(self):
-        # bestseller = get_bestseller.Bestseller()
-        # bestseller.start()
-        for i in range(1,11):
-            self.get_kw('iphone',str(i))
+        bestseller = get_bestseller.Bestseller()
+        bestseller.start()
+        # for i in range(1,11):
+        #     self.get_kw('apple',str(i))
 
     def get_kw(self,kw, page):
         url = 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords={kw}&page={page}'.format(kw=kw,page=page)
